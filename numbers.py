@@ -1,5 +1,6 @@
 # Generative adversarial network project. Attachment for Master's thesis.
 # Petro Mohyla Black Sea State University, Mykolaiv 2020.
+# Comments are in Ukrainian.
 
 # імпортуємо модулі та пакети
 import os
