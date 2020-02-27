@@ -26,7 +26,7 @@ np.random.seed(10)
 # розмірність вектора випадкового шуму
 random_dim = 100
 
-def load_minst_data():
+def load_mnist_data():
     # завантаження даних
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
     # нормалізуємо вхідні дані в діапазоні [-1, 1]
@@ -103,7 +103,7 @@ def plot_generated_images(epoch, generator, examples=100, dim=(10, 10), figsize=
 
 def train(epochs=1, batch_size=128):
     # отримуємо навчальні та тестові дані
-    x_train, y_train, x_test, y_test = load_minst_data()
+    x_train, y_train, x_test, y_test = load_mnist_data()
     # поділяємо навчальні дані на групи, розмірність 128
     batch_count = x_train.shape[0] // batch_size
 
