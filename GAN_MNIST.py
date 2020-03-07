@@ -1,8 +1,3 @@
-# Generative adversarial network project. Attachment for Master's thesis.
-# Petro Mohyla Black Sea State University, Mykolaiv 2020.
-# Comments are in Ukrainian.
-
-# імпортуємо модулі та пакети
 import os
 import numpy as np
 import matplotlib.pyplot as plt
@@ -16,27 +11,18 @@ from keras.datasets import mnist
 from tensorflow.keras.optimizers import Adam
 from keras import initializers
 
-# повідомляємо Keras, що ми використовуємо TensorFlow, як backend-рушій
 os.environ["KERAS_BACKEND"] = "tensorflow"
 
-# щоб переконатися, що ми зможемо відтворити експеримент та отримати 
-# такі ж результати
 np.random.seed(10)
 
-# розмірність вектора випадкового шуму
 random_dim = 100
 
 def load_mnist_data():
-    # завантаження даних
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
-    # нормалізуємо вхідні дані в діапазоні [-1, 1]
     x_train = (x_train.astype(np.float32) - 127.5)/127.5
-    # перетворюємо x_train з формою (60000, 28, 28) у (60000, 784),
-    # отримуємо 784 стовпчиків на рядок
     x_train = x_train.reshape(60000, 784)
     return (x_train, y_train, x_test, y_test)
 
-# далі буде використано оптимізатор ADAM
 def get_optimizer():
     return Adam(lr=0.0002, beta_1=0.5)
 
@@ -74,20 +60,14 @@ def get_discriminator(optimizer):
     return discriminator
 
 def get_gan_network(discriminator, random_dim, generator, optimizer):
-    # спочатку ми встановили trainable, як False, оскільки ми хочемо
-    # тренувати тільки генератор або дискримінатор за раз
     discriminator.trainable = False
-    # вхід (шум) GAN буде 100-мірними векторами
     gan_input = Input(shape=(random_dim,))
-    # output генератора (зображення)
     x = generator(gan_input)
-    # output дискримінатора (ймовірність чи зображення є реальним)
     gan_output = discriminator(x)
     gan = Model(inputs=gan_input, outputs=gan_output)
     gan.compile(loss='binary_crossentropy', optimizer=optimizer)
     return gan
 
-# створюємо панель згенерованих MNIST зображень
 def plot_generated_images(epoch, generator, examples=100, dim=(10, 10), figsize=(10, 10)):
     noise = np.random.normal(0, 1, size=[examples, random_dim])
     generated_images = generator.predict(noise)
@@ -102,12 +82,9 @@ def plot_generated_images(epoch, generator, examples=100, dim=(10, 10), figsize=
     plt.savefig('gan_generated_image_epoch_%d.png' % epoch)
 
 def train(epochs=1, batch_size=128):
-    # отримуємо навчальні та тестові дані
     x_train, y_train, x_test, y_test = load_mnist_data()
-    # поділяємо навчальні дані на групи, розмірність 128
     batch_count = x_train.shape[0] // batch_size
 
-    # конструюємо генеративно-змагальну мережу
     adam = get_optimizer()
     generator = get_generator(adam)
     discriminator = get_discriminator(adam)
@@ -116,24 +93,18 @@ def train(epochs=1, batch_size=128):
     for e in range(1, epochs+1):
         print ('-'*15, 'Epoch %d' % e, '-'*15)
         for _ in tqdm(range(batch_count)):
-            # отримуємо випадковий набір вхідного шуму та зображень
             noise = np.random.normal(0, 1, size=[batch_size, random_dim])
             image_batch = x_train[np.random.randint(0, x_train.shape[0], size=batch_size)]
 
-            # генеруємо фейкові MNIST-зображення
             generated_images = generator.predict(noise)
             X = np.concatenate([image_batch, generated_images])
 
-            # мітки для згенерованих та реальних даних
             y_dis = np.zeros(2*batch_size)
-            # одностороннє згладжування міток
             y_dis[:batch_size] = 0.9
 
-            # навчання дискримінатора
             discriminator.trainable = True
             discriminator.train_on_batch(X, y_dis)
 
-            # навчання генератора
             noise = np.random.normal(0, 1, size=[batch_size, random_dim])
             y_gen = np.ones(batch_size)
             discriminator.trainable = False
