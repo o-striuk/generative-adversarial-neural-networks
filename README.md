@@ -16,3 +16,7 @@ These two neural networks generate images using popular datasets — CIFAR-10 an
 
 * http://yann.lecun.com/exdb/mnist/ — MNIST
 * https://www.cs.toronto.edu/~kriz/cifar.html — CIFAR-10
+
+# Output
+
+The output images will be saved in the current folder.
