@@ -21,7 +21,7 @@ np.random.seed(10)
 # The dimension of our random noise vector
 random_dim = 100
 
-def load_minst_data():
+def load_cifar10_data():
     # load the data
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
     # normalize our inputs to be in the range[-1, 1]
@@ -82,7 +82,7 @@ def get_gan_network(discriminator, random_dim, generator, optimizer):
     gan.compile(loss='binary_crossentropy', optimizer=optimizer)
     return gan
 
-# Create a wall of generated MNIST images
+# Create a wall of generated CIFAR10 images
 def plot_generated_images(epoch, generator, examples=100, dim=(10, 10), figsize=(10, 10)):
     noise = np.random.normal(0, 1, size=[examples, random_dim])
     generated_images = generator.predict(noise)
@@ -117,7 +117,7 @@ def train(epochs=1, batch_size=128):
             image_batch = x_train[np.random.randint(0, x_train.shape[0], size=batch_size)]
             #print(image_batch.shape)
 
-            # Generate fake MNIST images
+            # Generate fake CIFAR10 images
             generated_images = generator.predict(noise)
             #print(generated_images.shape)
             X = np.concatenate([image_batch, generated_images])
