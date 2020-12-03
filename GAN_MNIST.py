@@ -18,20 +18,23 @@ from keras import initializers
 # We set it to 10 to ensure that we can get the same results reproducing the experiment.
 np.random.seed(10)
 
-# Dimension of the random noise vector.
+# Dimensionality of the random vector. 
+# The results are better when the dimension is close to 10 though.
 random_dim = 100
 
 def load_mnist_data():
-    # load the data
+    # Load data.
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
-    # normalize our inputs to be in the range[-1, 1]
+    # Normalize inputs to be in the range [-1, 1]. 
+    # It’s sometimes useful to normalize data values and rescale them between -1 and 1.
+    # If it comes to hyperbolic tangent (tanh).
     x_train = (x_train.astype(np.float32) - 127.5)/127.5
-    # convert x_train with a shape of (60000, 28, 28) to (60000, 784) so we have
-    # 784 columns per row
+    # Converting x_train with a shape of (60000, 28, 28) to (60000, 784).
+    # In order to get 784 columns per row.
     x_train = x_train.reshape(60000, 784)
     return (x_train, y_train, x_test, y_test)
 
-# You will use the Adam optimizer
+# Applying the Adam optimizer.
 def get_optimizer():
     return Adam(lr=0.0002, beta_1=0.5)
 
