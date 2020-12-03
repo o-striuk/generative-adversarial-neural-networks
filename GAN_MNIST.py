@@ -34,7 +34,7 @@ def load_mnist_data():
     x_train = x_train.reshape(60000, 784)
     return (x_train, y_train, x_test, y_test)
 
-# Applying the Adam optimizer.
+# Applying the Adam optimizer. The 'lr' parameter stands for 'learning rate'.
 def get_optimizer():
     return Adam(lr=0.0002, beta_1=0.5)
 
