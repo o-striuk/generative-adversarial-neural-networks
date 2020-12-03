@@ -9,7 +9,10 @@ from tqdm import tqdm
 from keras.layers import Input
 from keras.models import Model, Sequential
 from keras.layers.core import Dense, Dropout
+
+# LeakyReLU will be an activation function.
 from keras.layers.advanced_activations import LeakyReLU
+
 from keras.datasets import mnist
 from tensorflow.keras.optimizers import Adam
 from keras import initializers
