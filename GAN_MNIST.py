@@ -1,4 +1,8 @@
 import os
+
+# Informing Keras that TensorFlow is going to be used as backend engine.
+os.environ["KERAS_BACKEND"] = "tensorflow"
+
 import numpy as np
 import matplotlib.pyplot as plt
 from tqdm import tqdm
@@ -11,9 +15,6 @@ from keras.layers.advanced_activations import LeakyReLU
 from keras.datasets import mnist
 from tensorflow.keras.optimizers import Adam
 from keras import initializers
-
-# Informing Keras that TensorFlow is going to be used as backend engine.
-os.environ["KERAS_BACKEND"] = "tensorflow"
 
 # NumPy random seed is a function that is used to initialize a pseudorandom number generator. 
 # We set it to 10 to ensure that we can get the same results reproducing the experiment.
