@@ -12,13 +12,14 @@ from keras.datasets import mnist
 from tensorflow.keras.optimizers import Adam
 from keras import initializers
 
-# Let Keras know that we are using tensorflow as our backend engine
+# Informing Keras that TensorFlow is going to be used as backend engine.
 os.environ["KERAS_BACKEND"] = "tensorflow"
 
-# To make sure that we can reproduce the experiment and get the same results
+# NumPy random seed is a function that is used to initialize a pseudorandom number generator. 
+# We set it to 10 to ensure that we can get the same results reproducing the experiment.
 np.random.seed(10)
 
-# The dimension of our random noise vector.
+# Dimension of the random noise vector.
 random_dim = 100
 
 def load_mnist_data():
