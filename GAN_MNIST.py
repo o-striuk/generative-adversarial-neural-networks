@@ -13,6 +13,7 @@ from keras.layers.core import Dense, Dropout
 # LeakyReLU will be an activation function.
 from keras.layers.advanced_activations import LeakyReLU
 
+# Importing a dataset. We can use CIFAR-10 or CIFAR-100 (cifar10) as well. 
 from keras.datasets import mnist
 from tensorflow.keras.optimizers import Adam
 from keras import initializers
