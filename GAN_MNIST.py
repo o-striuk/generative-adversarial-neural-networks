@@ -26,7 +26,7 @@ np.random.seed(10)
 random_dim = 100
 
 def load_mnist_data():
-    # Load data.
+"""Load MNIST data."""
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
     # Normalize inputs to be in the range [-1, 1]. 
     # It’s sometimes useful to normalize data values and rescale them between -1 and 1.
@@ -39,9 +39,11 @@ def load_mnist_data():
 
 # Applying the Adam optimizer. The 'lr' parameter stands for 'learning rate'.
 def get_optimizer():
+"""Setting up Adam parameters."""
     return Adam(lr=0.0002, beta_1=0.5)
 
 def get_generator(optimizer):
+"""Creating the generator network."""    
     generator = Sequential()
     generator.add(Dense(256, input_dim=random_dim, kernel_initializer=initializers.RandomNormal(stddev=0.02)))
     generator.add(LeakyReLU(0.2))
@@ -57,6 +59,7 @@ def get_generator(optimizer):
     return generator
 
 def get_discriminator(optimizer):
+"""Creating the discriminator network."""    
     discriminator = Sequential()
     discriminator.add(Dense(1024, input_dim=784, kernel_initializer=initializers.RandomNormal(stddev=0.02)))
     discriminator.add(LeakyReLU(0.2))
@@ -87,7 +90,7 @@ def get_gan_network(discriminator, random_dim, generator, optimizer):
     gan.compile(loss='binary_crossentropy', optimizer=optimizer)
     return gan
 
-# Create a wall of generated MNIST images
+# Create a panel of generated images.
 def plot_generated_images(epoch, generator, examples=100, dim=(10, 10), figsize=(10, 10)):
     noise = np.random.normal(0, 1, size=[examples, random_dim])
     generated_images = generator.predict(noise)
@@ -102,12 +105,12 @@ def plot_generated_images(epoch, generator, examples=100, dim=(10, 10), figsize=
     plt.savefig('gan_generated_image_epoch_%d.png' % epoch)
 
 def train(epochs=1, batch_size=128):
-    # Get the training and testing data
+    # Get the training and testing data.
     x_train, y_train, x_test, y_test = load_mnist_data()
-    # Split the training data into batches of size 128
+    # Split the training data into batches of size 128.
     batch_count = x_train.shape[0] // batch_size
 
-    # Build our GAN netowrk
+    # Constructing GAN.
     adam = get_optimizer()
     generator = get_generator(adam)
     discriminator = get_discriminator(adam)
@@ -116,24 +119,24 @@ def train(epochs=1, batch_size=128):
     for e in range(1, epochs+1):
         print ('-'*15, 'Epoch %d' % e, '-'*15)
         for _ in tqdm(range(batch_count)):
-            # Get a random set of input noise and images
+            # Get a random set of input noise and images.
             noise = np.random.normal(0, 1, size=[batch_size, random_dim])
             image_batch = x_train[np.random.randint(0, x_train.shape[0], size=batch_size)]
 
-            # Generate fake MNIST images
+            # Generate fake MNIST images.
             generated_images = generator.predict(noise)
             X = np.concatenate([image_batch, generated_images])
 
-            # Labels for generated and real data
+            # Labels for generated and real data.
             y_dis = np.zeros(2*batch_size)
-            # One-sided label smoothing
+            # One-sided label smoothing.
             y_dis[:batch_size] = 0.9
 
-            # Train discriminator
+            # Train the discriminator network.
             discriminator.trainable = True
             discriminator.train_on_batch(X, y_dis)
 
-            # Train generator
+            # Train the generator network.
             noise = np.random.normal(0, 1, size=[batch_size, random_dim])
             y_gen = np.ones(batch_size)
             discriminator.trainable = False
