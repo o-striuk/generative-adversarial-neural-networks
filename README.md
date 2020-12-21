@@ -1,6 +1,6 @@
 # Description
 
-These two neural networks generate images using popular datasets — CIFAR-10 and MNIST. Architectures are almost the same.
+This neural network generates images using popular datasets — MNIST and CIFAR-10.
 
 # Modules to Install
 
