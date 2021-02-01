@@ -27,7 +27,7 @@ np.random.seed(10)
 random_dim = 100
 
 def load_mnist_data():
-"""Load MNIST data."""
+    """Load MNIST data."""
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
     # Normalize inputs to be in the range [-1, 1]. 
     # It’s sometimes useful to normalize data values and rescale them between -1 and 1.
@@ -40,11 +40,11 @@ def load_mnist_data():
 
 # Applying the Adam optimizer. The 'lr' parameter stands for 'learning rate'.
 def get_optimizer():
-"""Setting up Adam parameters."""
+    """Setting up Adam parameters."""
     return Adam(lr=0.0002, beta_1=0.5)
 
 def get_generator(optimizer):
-"""Creating the generator network."""    
+    """Creating the generator network."""    
     generator = Sequential()
     generator.add(Dense(256, input_dim=random_dim, kernel_initializer=initializers.RandomNormal(stddev=0.02)))
     generator.add(LeakyReLU(0.2))
@@ -60,7 +60,7 @@ def get_generator(optimizer):
     return generator
 
 def get_discriminator(optimizer):
-"""Creating the discriminator network."""    
+    """Creating the discriminator network."""    
     discriminator = Sequential()
     discriminator.add(Dense(1024, input_dim=784, kernel_initializer=initializers.RandomNormal(stddev=0.02)))
     discriminator.add(LeakyReLU(0.2))
