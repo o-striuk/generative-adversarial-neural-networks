@@ -91,7 +91,7 @@ def get_gan_network(discriminator, random_dim, generator, optimizer):
     gan_output = discriminator(x)
     gan = Model(inputs=gan_input, outputs=gan_output)
     # Setting the binary cross-entropy loss as our loss function.
-    # The same as for a generator with a discriminator.
+    # The same as for generator and discriminator.
     gan.compile(loss='binary_crossentropy', optimizer=optimizer)
     return gan
 
