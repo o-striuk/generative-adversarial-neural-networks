@@ -79,6 +79,8 @@ def get_discriminator(optimizer):
     return discriminator
 
 def get_gan_network(discriminator, random_dim, generator, optimizer):
+    """Shaping our GAN."""
+    
     # Set trainable to 'False' to train either Generator or Discriminator at a time.
     discriminator.trainable = False
     # GAN input will be a vector with a preset dimension.
@@ -88,6 +90,8 @@ def get_gan_network(discriminator, random_dim, generator, optimizer):
     # Discriminator output will be the probability whether the image is real or fake.
     gan_output = discriminator(x)
     gan = Model(inputs=gan_input, outputs=gan_output)
+    # Setting the binary cross-entropy loss as our loss function.
+    # The same as for a generator with a discriminator.
     gan.compile(loss='binary_crossentropy', optimizer=optimizer)
     return gan
 
